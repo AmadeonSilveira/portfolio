@@ -155,6 +155,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="pt-BR" className={`${plusJakartaSans.variable} ${inter.variable}`}>
       <head>
         <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('theme');
+                  var system = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                  var theme = saved === 'light' || saved === 'dark' ? saved : system;
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
