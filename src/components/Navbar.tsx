@@ -52,6 +52,9 @@ export default function Navbar() {
       const scrollingUp = currentScrollY < lastScrollY.current;
       const scrollingDown = currentScrollY > lastScrollY.current;
       
+      // Fechar menu ao rolar a tela
+      setIsMenuOpen((prev) => prev ? false : prev);
+      
       setIsScrolled(currentScrollY > 50);
       
       // Se estiver no topo, sempre mostrar
