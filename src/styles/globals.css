@@ -169,10 +169,41 @@ p, .hero-sub, .hero-tagline, .about-text, .card-description {
   width: calc(100% - 40px);
   max-width: 1200px;
   z-index: 1000;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbar-scrolled {
+  top: 10px;
+}
+
+.navbar-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.navbar-hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-15px);
+  pointer-events: none;
+}
+
+/* Área de detecção invisível no topo para mostrar navbar ao passar o mouse */
+.navbar-hover-zone {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 1200px;
+  height: 60px;
+  z-index: 999;
+  pointer-events: auto;
+  cursor: default;
+  transition: top 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navbar-hover-zone-scrolled {
   top: 10px;
 }
 

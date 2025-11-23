@@ -5,16 +5,80 @@ import { useState, useEffect, useRef } from 'react';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const lastScrollY = useRef(0);
+  const lastScrollDirection = useRef<'up' | 'down' | null>(null);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isScrolling = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      const scrollingUp = currentScrollY < lastScrollY.current;
+      const scrollingDown = currentScrollY > lastScrollY.current;
+      
+      setIsScrolled(currentScrollY > 50);
+      
+      // Se estiver no topo, sempre mostrar
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+      
+      // Durante o scroll, sempre mostrar
+      isScrolling.current = true;
+      setIsVisible(true);
+      
+      // Limpar timeouts anteriores
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+      if (hoverTimeout.current) {
+        clearTimeout(hoverTimeout.current);
+        hoverTimeout.current = null;
+      }
+      
+      // Após parar de scrollar (delay de 800ms)
+      scrollTimeout.current = setTimeout(() => {
+        isScrolling.current = false;
+        // Se estava scrollando para cima, manter visível
+        // Se estava scrollando para baixo e não está com hover, esconder
+        if (scrollingDown && !isHovered) {
+          setIsVisible(false);
+        }
+        // Se estava scrollando para cima, manter visível (já está true)
+      }, 800);
+      
+      // Salvar direção do último scroll
+      if (scrollingUp) {
+        lastScrollDirection.current = 'up';
+      } else if (scrollingDown) {
+        lastScrollDirection.current = 'down';
+      }
+      
+      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    
+    // Inicializar posição
+    lastScrollY.current = window.scrollY;
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+      if (hoverTimeout.current) {
+        clearTimeout(hoverTimeout.current);
+      }
+    };
+  }, [isHovered]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -73,12 +137,55 @@ export default function Navbar() {
     }
   };
 
+  const handleMouseEnter = () => {
+    // Limpar qualquer timeout pendente de esconder
+    if (hoverTimeout.current) {
+      clearTimeout(hoverTimeout.current);
+      hoverTimeout.current = null;
+    }
+    setIsHovered(true);
+    setIsVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    const currentScrollY = window.scrollY;
+    
+    // Limpar timeout anterior se existir
+    if (hoverTimeout.current) {
+      clearTimeout(hoverTimeout.current);
+    }
+    
+    // Adicionar delay antes de esconder (500ms)
+    hoverTimeout.current = setTimeout(() => {
+      // Esconder se:
+      // - Não estiver no topo
+      // - Não estiver scrollando ativamente
+      // - Última direção do scroll não foi para cima (ou não há direção registrada)
+      if (currentScrollY > 10 && !isScrolling.current && lastScrollDirection.current !== 'up') {
+        setIsVisible(false);
+      }
+      hoverTimeout.current = null;
+    }, 500);
+  };
+
   return (
-    <nav 
-      className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}
-      role="navigation"
-      aria-label="Navegação principal"
-    >
+    <>
+      {/* Área de detecção invisível no topo para mostrar navbar ao passar o mouse */}
+      <div
+        className={`navbar-hover-zone ${isScrolled ? 'navbar-hover-zone-scrolled' : ''}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        aria-hidden="true"
+      />
+      <nav 
+        ref={navRef}
+        className={`navbar ${isScrolled ? 'navbar-scrolled' : ''} ${isVisible ? 'navbar-visible' : 'navbar-hidden'}`}
+        role="navigation"
+        aria-label="Navegação principal"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
       <div className="navbar-container">
         <div 
           className="navbar-logo" 
@@ -225,6 +332,7 @@ export default function Navbar() {
         </button>
       </div>
     </nav>
+    </>
   );
 }
 
