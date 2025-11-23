@@ -534,6 +534,16 @@ nav.navbar.navbar-scrolled > div.navbar-container {
     will-change: transform, opacity;
   }
 
+  /* Light Mode - Dropdown mobile com contraste correto */
+  :root[data-theme="light"] .navbar-links {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(20, 184, 166, 0.25);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      0 0 0 1px rgba(20, 184, 166, 0.15),
+      0 0 40px rgba(20, 184, 166, 0.1);
+  }
+
   .navbar-links::before {
     content: "";
     position: absolute;
@@ -554,6 +564,15 @@ nav.navbar.navbar-scrolled > div.navbar-container {
     z-index: -1;
   }
 
+  /* Light Mode - Borda gradiente do dropdown */
+  :root[data-theme="light"] .navbar-links::before {
+    background: linear-gradient(
+      135deg,
+      rgba(20, 184, 166, 0.25),
+      rgba(168, 85, 247, 0.2)
+    );
+  }
+
   .navbar-links-open {
     opacity: 1;
     visibility: visible;
@@ -568,11 +587,24 @@ nav.navbar.navbar-scrolled > div.navbar-container {
     font-size: 15px;
     margin-bottom: 4px;
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    color: var(--text);
   }
 
   .navbar-link:hover {
     background: rgba(45, 212, 191, 0.12);
     transform: translateX(4px);
+  }
+
+  /* Light Mode - Links do dropdown com contraste correto */
+  :root[data-theme="light"] .navbar-link {
+    color: #0a0a0a;
+    opacity: 0.9;
+  }
+
+  :root[data-theme="light"] .navbar-link:hover {
+    background: rgba(20, 184, 166, 0.15);
+    color: #0a0a0a;
+    opacity: 1;
   }
 
   .navbar-icons-desktop {
@@ -588,6 +620,24 @@ nav.navbar.navbar-scrolled > div.navbar-container {
     width: 100%;
     justify-content: center;
     gap: 12px;
+  }
+
+  /* Light Mode - Separador dos ícones no dropdown */
+  :root[data-theme="light"] .navbar-icons-mobile {
+    border-top-color: rgba(20, 184, 166, 0.2);
+  }
+
+  /* Light Mode - Ícones dentro do dropdown mobile */
+  :root[data-theme="light"] .navbar-icons-mobile .navbar-icon-btn {
+    background: rgba(20, 184, 166, 0.12);
+    border-color: rgba(20, 184, 166, 0.25);
+    color: #0a0a0a;
+  }
+
+  :root[data-theme="light"] .navbar-icons-mobile .navbar-icon-btn:hover {
+    background: rgba(20, 184, 166, 0.18);
+    border-color: rgba(20, 184, 166, 0.35);
+    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.2);
   }
 }
 
