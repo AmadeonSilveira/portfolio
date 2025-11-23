@@ -3,9 +3,11 @@
 import Hero from '../components/Hero';
 import SkillsGrid from '../components/SkillsGrid';
 import ProjectCard from '../components/ProjectCard';
+import ProjectEditorialCard from '../components/ProjectEditorialCard';
 import ParallaxScroll from '../components/ParallaxScroll';
 import Navbar from '../components/Navbar';
 import logo from '../assets/logo.png';
+import projects from '@/data/projects.json';
 
 export default function Home() {
   return (
@@ -78,125 +80,26 @@ export default function Home() {
         <div className="container">
           <h2 id="projetos-title" className="section-title">Projetos</h2>
           <div className="projects">
-            {/* Card 1 - Horizontal */}
-            <article className="editorial-card editorial-card-horizontal">
-              <img 
-                src={logo.src} 
-                alt="Captura de tela do projeto Nikeon - App mobile para gerenciamento e ranking de jogos" 
-                className="card-image"
-              />
-              <div className="card-content">
-                <div>
-                  <h3 className="card-title">Nikeon — Gerenciamento & Ranking de Jogos</h3>
-                  <p className="card-description">
-                    App mobile para registrar partidas, gerar estatísticas e rankings. Visual moderno e intuitivo.
-                  </p>
-                  <div className="card-tech">
-                    <span className="tech-badge">Flutter</span>
-                    <span className="tech-badge">Supabase</span>
-                    <span className="tech-badge">Auth</span>
-                    <span className="tech-badge">Ranking Automático</span>
-                  </div>
-                </div>
-                <div className="card-actions">
-                  <a 
-                    href="#" 
-                    className="card-btn card-btn-primary"
-                    aria-label="Ver detalhes do projeto Nikeon"
-                  >
-                    Ver projeto
-                  </a>
-                  <a 
-                    href="https://github.com/AmadeonSilveira/nikeon" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="card-btn card-btn-secondary"
-                    aria-label="Abrir repositório do Nikeon no GitHub em nova aba"
-                  >
-                    Repositório
-                  </a>
-                </div>
-              </div>
-            </article>
-
-            {/* Card 2 - Quadrado */}
-            <article className="editorial-card editorial-card-square">
-              <img 
-                src={logo.src} 
-                alt="Captura de tela do Portfolio Amadeon - Portfólio com efeitos visuais premium" 
-                className="card-image"
-              />
-              <div className="card-content">
-                <div>
-                  <h3 className="card-title">Portfolio Amadeon</h3>
-                  <p className="card-description">
-                    Desenvolvimento do meu próprio portfólio com efeitos visuais premium.
-                  </p>
-                  <div className="card-tech">
-                    <span className="tech-badge">React</span>
-                    <span className="tech-badge">Next.js</span>
-                    <span className="tech-badge">CSS</span>
-                  </div>
-                </div>
-                <div className="card-actions">
-                  <a 
-                    href="#" 
-                    className="card-btn card-btn-primary"
-                    aria-label="Ver detalhes do projeto Portfolio Amadeon"
-                  >
-                    Ver projeto
-                  </a>
-                  <a 
-                    href="https://github.com/AmadeonSilveira/portfolio" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="card-btn card-btn-secondary"
-                    aria-label="Abrir repositório do Portfolio Amadeon no GitHub em nova aba"
-                  >
-                    Repositório
-                  </a>
-                </div>
-              </div>
-            </article>
-
-            {/* Card 3 - Vertical Estreito */}
-            <article className="editorial-card editorial-card-vertical">
-              <img 
-                src={logo.src} 
-                alt="Captura de tela do Gerenciador de Rotinas - App para registrar tarefas e acompanhar hábitos" 
-                className="card-image"
-              />
-              <div className="card-content">
-                <div>
-                  <h3 className="card-title">Gerenciador de Rotinas</h3>
-                  <p className="card-description">
-                    App simples para registrar tarefas e acompanhar hábitos.
-                  </p>
-                  <div className="card-tech">
-                    <span className="tech-badge">React Native</span>
-                    <span className="tech-badge">AsyncStorage</span>
-                  </div>
-                </div>
-                <div className="card-actions">
-                  <a 
-                    href="#" 
-                    className="card-btn card-btn-primary"
-                    aria-label="Ver detalhes do projeto Gerenciador de Rotinas"
-                  >
-                    Ver projeto
-                  </a>
-                  <a 
-                    href="https://github.com/AmadeonSilveira/routine-manager" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="card-btn card-btn-secondary"
-                    aria-label="Abrir repositório do Gerenciador de Rotinas no GitHub em nova aba"
-                  >
-                    Repositório
-                  </a>
-                </div>
-              </div>
-            </article>
+            {projects
+              .filter((project) => project.id === 'nikeon' || project.id === 'amadeon-portfolio')
+              .map((project) => {
+                // Usar logo.src como fallback se a imagem não existir
+                const imageSrc = project.image || logo.src;
+                
+                return (
+                  <ProjectEditorialCard
+                    key={project.id}
+                    title={project.title.pt}
+                    description={project.description.pt}
+                    image={imageSrc}
+                    repo={project.repo}
+                    demo={project.demo}
+                    tech={project.tech}
+                    orientation={project.orientation as 'horizontal' | 'square' | 'vertical'}
+                    slug={project.id}
+                  />
+                );
+              })}
           </div>
         </div>
       </section>

@@ -1,0 +1,35 @@
+[
+    {
+      "id": "nikeon",
+      "title": {
+        "pt": "Nikeon — Gerenciamento & Ranking de Jogos",
+        "en": "Nikeon — Game Match Tracking & Ranking"
+      },
+      "description": {
+        "pt": "App mobile para registrar partidas, gerar estatísticas e rankings.",
+        "en": "Mobile app to register matches, generate statistics and rankings."
+      },
+      "image": "/images/projects/nikeon.png",
+      "repo": "https://github.com/AmadeonSilveira/nikeon",
+      "demo": null,
+      "tech": ["Flutter", "Supabase", "Auth"],
+      "orientation": "horizontal"
+    },
+    {
+      "id": "amadeon-portfolio",
+      "title": {
+        "pt": "Portfolio Amadeon",
+        "en": "Amadeon Portfolio"
+      },
+      "description": {
+        "pt": "Meu portfólio desenvolvido com Next.js, React e animações modernas.",
+        "en": "My portfolio developed with Next.js, React and modern animations."
+      },
+      "image": "/images/projects/portfolio.png",
+      "repo": "https://github.com/AmadeonSilveira/portfolio",
+      "demo": null,
+      "tech": ["React", "Next.js", "CSS"],
+      "orientation": "square"
+    }
+  ]
+  

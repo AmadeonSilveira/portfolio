@@ -1,0 +1,69 @@
+[
+    {
+      "id": "react",
+      "name": { "pt": "React", "en": "React" },
+      "description": { "pt": "Componentes e hooks", "en": "Components and hooks" },
+      "icon": "/icons/react.svg"
+    },
+    {
+      "id": "react-native",
+      "name": { "pt": "React Native", "en": "React Native" },
+      "description": { "pt": "Desenvolvimento mobile", "en": "Mobile development" },
+      "icon": "/icons/react-native.svg"
+    },
+    {
+      "id": "expo",
+      "name": { "pt": "Expo", "en": "Expo" },
+      "description": { "pt": "Framework para apps mobile", "en": "Framework for mobile apps" },
+      "icon": "/icons/expo.svg"
+    },
+    {
+      "id": "typescript",
+      "name": { "pt": "TypeScript", "en": "TypeScript" },
+      "description": { "pt": "Tipagem estática", "en": "Static typing" },
+      "icon": "/icons/typescript.svg"
+    },
+    {
+      "id": "flutter",
+      "name": { "pt": "Flutter", "en": "Flutter" },
+      "description": { "pt": "Apps multiplataforma", "en": "Cross-platform apps" },
+      "icon": "/icons/flutter.svg"
+    },
+    {
+      "id": "html",
+      "name": { "pt": "HTML", "en": "HTML" },
+      "description": { "pt": "Estrutura semântica", "en": "Semantic structure" },
+      "icon": "/icons/html.svg"
+    },
+    {
+      "id": "css",
+      "name": { "pt": "CSS", "en": "CSS" },
+      "description": { "pt": "Estilização moderna", "en": "Modern styling" },
+      "icon": "/icons/css.svg"
+    },
+    {
+      "id": "rest",
+      "name": { "pt": "APIs & REST", "en": "APIs & REST" },
+      "description": { "pt": "Integração de dados", "en": "Data integration" },
+      "icon": "/icons/rest.svg"
+    },
+    {
+      "id": "php",
+      "name": { "pt": "PHP", "en": "PHP" },
+      "description": { "pt": "Backend e servidor", "en": "Backend and server" },
+      "icon": "/icons/php.svg"
+    },
+    {
+      "id": "wordpress",
+      "name": { "pt": "WordPress", "en": "WordPress" },
+      "description": { "pt": "CMS e temas", "en": "CMS and themes" },
+      "icon": "/icons/wordpress.svg"
+    },
+    {
+      "id": "git",
+      "name": { "pt": "Git", "en": "Git" },
+      "description": { "pt": "Controle de versão", "en": "Version control" },
+      "icon": "/icons/git.svg"
+    }
+  ]
+  

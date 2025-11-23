@@ -1,7 +1,27 @@
 'use client';
 import { motion } from 'framer-motion';
 
-export default function ProjectCard({ title, description, img, repo } : { title: string, description: string, img: string, repo?: string }) {
+interface ProjectCardProps {
+  title: string;
+  description: string;
+  img: string;
+  repo?: string | null;
+  tech?: string[];
+  orientation?: 'horizontal' | 'square' | 'vertical';
+  demo?: string | null;
+  slug?: string;
+}
+
+export default function ProjectCard({ 
+  title, 
+  description, 
+  img, 
+  repo,
+  tech,
+  orientation,
+  demo,
+  slug,
+}: ProjectCardProps) {
   return (
     <motion.article className="project-card" whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 200 }}>
       <img 
@@ -17,7 +37,7 @@ export default function ProjectCard({ title, description, img, repo } : { title:
             <a 
               href={repo} 
               target="_blank" 
-              rel="noreferrer" 
+              rel="noopener noreferrer" 
               className="btn small"
               aria-label={`Abrir repositório do projeto ${title} no GitHub em nova aba`}
             >
@@ -25,7 +45,7 @@ export default function ProjectCard({ title, description, img, repo } : { title:
             </a>
           )}
           <a 
-            href="#" 
+            href={demo || '#'} 
             className="btn small ghost"
             aria-label={`Ver detalhes do projeto ${title}`}
           >

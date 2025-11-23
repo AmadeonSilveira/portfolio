@@ -16,7 +16,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="hero-title">Desenvolvedora <br /> Front-end e Mobile</h2>
+        <h1 className="hero-title">Desenvolvedora <br /> Front-end e Mobile</h1>
 
         <p className="hero-sub">
           React • React Native • TypeScript • JavaScript
@@ -33,10 +33,18 @@ export default function Hero() {
               onClick={() => {
                 document.getElementById('projetos')?.scrollIntoView({ behavior: 'smooth' });
               }}
+              aria-label="Ver projetos do portfólio"
             >
               Ver Portfólio
             </button>
-            <a className="btn ghost" href="/Karin_Andrade_Silveira_CV.pdf">Baixar Currículo</a>
+            <a 
+              className="btn ghost" 
+              href="/Karin_Andrade_Silveira_CV.pdf"
+              aria-label="Baixar currículo em PDF"
+              download
+            >
+              Baixar Currículo
+            </a>
           </div>
         </div>
       </motion.div>
