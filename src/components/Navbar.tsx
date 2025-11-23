@@ -17,19 +17,26 @@ export default function Navbar() {
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
   const isScrolling = useRef(false);
 
-  // Sincronizar estado React com o tema já aplicado pelo script inline
+  // Sincronizar estado React com o tema já aplicado pelo script inline (apenas no client após mount)
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const currentTheme = document.documentElement.getAttribute('data-theme') as 'light' | 'dark' | null;
     if (currentTheme === 'light' || currentTheme === 'dark') {
       setTheme(currentTheme);
+    } else {
+      // Fallback: ler do localStorage ou usar prefers-color-scheme
+      const stored = localStorage.getItem('theme');
+      const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      const initialTheme = (stored === 'light' || stored === 'dark') ? stored : (prefersLight ? 'light' : 'dark');
+      setTheme(initialTheme as 'light' | 'dark');
     }
   }, []);
 
-  // Aplicar tema quando mudar (apenas no client)
+  // Aplicar tema quando mudar (apenas no client após mount)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      document.documentElement.setAttribute('data-theme', theme);
-    }
+    if (typeof window === 'undefined') return;
+    document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   // Função para alternar tema
