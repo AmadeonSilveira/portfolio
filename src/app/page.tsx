@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Hero from '../components/Hero';
 import SkillsGrid from '../components/SkillsGrid';
 import ProjectCard from '../components/ProjectCard';
@@ -36,34 +37,54 @@ export default function Home() {
             </div>
           </div>
           <div className="about-photo-stack">
-            <img 
-              src={logo.src} 
+            <Image 
+              src={logo} 
               alt="Karin Andrade Silveira - Foto principal do portfólio" 
               className="main-photo"
+              width={280}
+              height={280}
+              priority
+              unoptimized={false}
             />
-            <img 
-              src={logo.src} 
+            <Image 
+              src={logo} 
               alt="Karin Andrade Silveira - Foto decorativa" 
               className="floating-photo floating-photo-a"
               aria-hidden="true"
+              width={90}
+              height={90}
+              loading="lazy"
+              unoptimized={false}
             />
-            <img 
-              src={logo.src} 
+            <Image 
+              src={logo} 
               alt="Karin Andrade Silveira - Foto decorativa" 
               className="floating-photo floating-photo-b"
               aria-hidden="true"
+              width={110}
+              height={110}
+              loading="lazy"
+              unoptimized={false}
             />
-            <img 
-              src={logo.src} 
+            <Image 
+              src={logo} 
               alt="Karin Andrade Silveira - Foto decorativa" 
               className="floating-photo floating-photo-c"
               aria-hidden="true"
+              width={95}
+              height={95}
+              loading="lazy"
+              unoptimized={false}
             />
-            <img 
-              src={logo.src} 
+            <Image 
+              src={logo} 
               alt="Karin Andrade Silveira - Foto decorativa" 
               className="floating-photo floating-photo-d"
               aria-hidden="true"
+              width={115}
+              height={100}
+              loading="lazy"
+              unoptimized={false}
             />
           </div>
         </div>

@@ -22,10 +22,6 @@ export default function Hero() {
           React • React Native • TypeScript • JavaScript
         </p>
 
-        <p className="hero-tagline">
-          Criando interfaces modernas com foco em clareza, fluidez e experiência.
-        </p>
-
         <div className="hero-buttons-wrapper">
           <div className="hero-buttons">
             <button 

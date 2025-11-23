@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 interface ProjectCardProps {
@@ -24,10 +25,14 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   return (
     <motion.article className="project-card" whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 200 }}>
-      <img 
+      <Image 
         src={img} 
         alt={`Captura de tela do projeto ${title} - ${description}`} 
         className="project-thumb" 
+        width={600}
+        height={400}
+        loading="lazy"
+        unoptimized={false}
       />
       <div className="project-body">
         <h3>{title}</h3>

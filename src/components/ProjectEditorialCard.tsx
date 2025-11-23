@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 interface ProjectEditorialCardProps {
   title: string;
   description: string;
@@ -27,10 +29,14 @@ export default function ProjectEditorialCard({
 
   return (
     <article className={cardClass}>
-      <img 
+      <Image 
         src={image} 
         alt={`Captura de tela do projeto ${title} - ${description}`} 
         className="card-image"
+        width={600}
+        height={200}
+        loading="lazy"
+        unoptimized={false}
       />
       <div className="card-content">
         <div>
