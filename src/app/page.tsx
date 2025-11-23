@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Hero from '../components/Hero';
 import SkillsGrid from '../components/SkillsGrid';
-import ProjectCard from '../components/ProjectCard';
 import ProjectEditorialCard from '../components/ProjectEditorialCard';
 import ParallaxScroll from '../components/ParallaxScroll';
 import Navbar from '../components/Navbar';
@@ -44,7 +43,6 @@ export default function Home() {
               width={280}
               height={280}
               priority
-              unoptimized={false}
             />
             <Image 
               src={logo} 
@@ -54,7 +52,6 @@ export default function Home() {
               width={90}
               height={90}
               loading="lazy"
-              unoptimized={false}
             />
             <Image 
               src={logo} 
@@ -64,7 +61,6 @@ export default function Home() {
               width={110}
               height={110}
               loading="lazy"
-              unoptimized={false}
             />
             <Image 
               src={logo} 
@@ -74,7 +70,6 @@ export default function Home() {
               width={95}
               height={95}
               loading="lazy"
-              unoptimized={false}
             />
             <Image 
               src={logo} 
@@ -84,7 +79,6 @@ export default function Home() {
               width={115}
               height={100}
               loading="lazy"
-              unoptimized={false}
             />
           </div>
         </div>
@@ -104,8 +98,8 @@ export default function Home() {
             {projects
               .filter((project) => project.id === 'nikeon' || project.id === 'amadeon-portfolio')
               .map((project) => {
-                // Usar logo.src como fallback se a imagem não existir
-                const imageSrc = project.image || logo.src;
+                // Usar logo como fallback se a imagem não existir
+                const imageSrc = project.image || logo;
                 
                 return (
                   <ProjectEditorialCard
@@ -117,7 +111,6 @@ export default function Home() {
                     demo={project.demo}
                     tech={project.tech}
                     orientation={project.orientation as 'horizontal' | 'square' | 'vertical'}
-                    slug={project.id}
                   />
                 );
               })}

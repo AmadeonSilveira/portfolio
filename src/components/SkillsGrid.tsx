@@ -21,7 +21,6 @@ export default function SkillsGrid() {
                 width={60}
                 height={60}
                 loading="lazy"
-                unoptimized={false}
               />
               <div className="skill-body">
                 <h3 className="skill-title">{skill.name.pt}</h3>

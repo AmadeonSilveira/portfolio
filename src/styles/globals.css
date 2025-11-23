@@ -468,7 +468,13 @@ nav.navbar.navbar-scrolled > div.navbar-container {
     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     gap: 4px;
     z-index: 1000;
-    will-change: transform, opacity;
+  }
+
+  /* will-change apenas durante animação do menu mobile */
+  @media (prefers-reduced-motion: no-preference) {
+    .navbar-links {
+      will-change: transform, opacity;
+    }
   }
 
   /* Light Mode - Dropdown mobile com contraste correto */
@@ -591,6 +597,8 @@ nav.navbar.navbar-scrolled > div.navbar-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  contain: layout style paint;
+  transform: translateZ(0);
 }
 
 /* Gradientes radiais editoriais amplos e suaves */
@@ -606,6 +614,8 @@ nav.navbar.navbar-scrolled > div.navbar-container {
   pointer-events: none;
   filter: blur(400px);
   opacity: 1;
+  transform: translateZ(0);
+  will-change: opacity;
 }
 
 /* Dark Mode - Gradientes mais saturados e perceptíveis */
@@ -646,8 +656,7 @@ nav.navbar.navbar-scrolled > div.navbar-container {
     rgba(10, 11, 13, 0.4) 100%
   );
   z-index: 2;
-  will-change: transform;
-  transition: transform 0.1s ease-out;
+  transform: translateZ(0);
 }
 
 /* Dark Mode - Hero glass com mais contraste */
@@ -676,28 +685,36 @@ nav.navbar.navbar-scrolled > div.navbar-container {
   opacity: 0.55;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+  transform: translateZ(0);
+}
+
+/* will-change apenas durante animação ativa para reduzir overhead */
+@media (prefers-reduced-motion: no-preference) {
+  .light {
+    will-change: transform, opacity;
+  }
 }
 
 /* Animação circular para L1 - Centro/Esquerda */
 @keyframes light1-orbit {
   0% {
-    transform: translate(calc(25vw - 300px), calc(25vh - 300px)) scale(1);
+    transform: translate3d(calc(25vw - 300px), calc(25vh - 300px), 0) scale(1);
     opacity: 0.35;
   }
   25% {
-    transform: translate(calc(50vw - 300px), calc(15vh - 300px)) scale(1.1);
+    transform: translate3d(calc(50vw - 300px), calc(15vh - 300px), 0) scale(1.1);
     opacity: 0.4;
   }
   50% {
-    transform: translate(calc(75vw - 300px), calc(25vh - 300px)) scale(0.95);
+    transform: translate3d(calc(75vw - 300px), calc(25vh - 300px), 0) scale(0.95);
     opacity: 0.3;
   }
   75% {
-    transform: translate(calc(50vw - 300px), calc(35vh - 300px)) scale(1.05);
+    transform: translate3d(calc(50vw - 300px), calc(35vh - 300px), 0) scale(1.05);
     opacity: 0.38;
   }
   100% {
-    transform: translate(calc(25vw - 300px), calc(25vh - 300px)) scale(1);
+    transform: translate3d(calc(25vw - 300px), calc(25vh - 300px), 0) scale(1);
     opacity: 0.35;
   }
 }
@@ -721,23 +738,23 @@ nav.navbar.navbar-scrolled > div.navbar-container {
 /* Animação circular para L2 - Esquerda/Centro */
 @keyframes light2-orbit {
   0% {
-    transform: translate(calc(10vw - 400px), calc(50vh - 400px)) scale(1);
+    transform: translate3d(calc(10vw - 400px), calc(50vh - 400px), 0) scale(1);
     opacity: 0.3;
   }
   25% {
-    transform: translate(calc(30vw - 400px), calc(30vh - 400px)) scale(0.9);
+    transform: translate3d(calc(30vw - 400px), calc(30vh - 400px), 0) scale(0.9);
     opacity: 0.25;
   }
   50% {
-    transform: translate(calc(50vw - 400px), calc(50vh - 400px)) scale(1.1);
+    transform: translate3d(calc(50vw - 400px), calc(50vh - 400px), 0) scale(1.1);
     opacity: 0.35;
   }
   75% {
-    transform: translate(calc(30vw - 400px), calc(70vh - 400px)) scale(0.95);
+    transform: translate3d(calc(30vw - 400px), calc(70vh - 400px), 0) scale(0.95);
     opacity: 0.3;
   }
   100% {
-    transform: translate(calc(10vw - 400px), calc(50vh - 400px)) scale(1);
+    transform: translate3d(calc(10vw - 400px), calc(50vh - 400px), 0) scale(1);
     opacity: 0.3;
   }
 }
@@ -761,23 +778,23 @@ nav.navbar.navbar-scrolled > div.navbar-container {
 /* Animação circular para L3 - Direita/Centro */
 @keyframes light3-orbit {
   0% {
-    transform: translate(calc(90vw - 400px), calc(20vh - 400px)) scale(1);
+    transform: translate3d(calc(90vw - 400px), calc(20vh - 400px), 0) scale(1);
     opacity: 0.15;
   }
   25% {
-    transform: translate(calc(70vw - 400px), calc(40vh - 400px)) scale(1.05);
+    transform: translate3d(calc(70vw - 400px), calc(40vh - 400px), 0) scale(1.05);
     opacity: 0.2;
   }
   50% {
-    transform: translate(calc(50vw - 400px), calc(60vh - 400px)) scale(0.9);
+    transform: translate3d(calc(50vw - 400px), calc(60vh - 400px), 0) scale(0.9);
     opacity: 0.12;
   }
   75% {
-    transform: translate(calc(70vw - 400px), calc(50vh - 400px)) scale(1.02);
+    transform: translate3d(calc(70vw - 400px), calc(50vh - 400px), 0) scale(1.02);
     opacity: 0.18;
   }
   100% {
-    transform: translate(calc(90vw - 400px), calc(20vh - 400px)) scale(1);
+    transform: translate3d(calc(90vw - 400px), calc(20vh - 400px), 0) scale(1);
     opacity: 0.15;
   }
 }
@@ -808,10 +825,16 @@ nav.navbar.navbar-scrolled > div.navbar-container {
   text-align: center;
 }
 
+/* will-change apenas durante animação inicial */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content {
+    will-change: opacity, transform;
+  }
+}
+
 .hero-inner {
   max-width: 980px;
   text-align: center;
-  backdrop-filter: blur(var(--glass-blur));
 }
 
 .hero-title {
@@ -822,8 +845,6 @@ nav.navbar.navbar-scrolled > div.navbar-container {
   letter-spacing: -0.015em;
   font-family: var(--font-plus-jakarta), sans-serif;
   position: relative;
-  opacity: 0;
-  animation: fade-up 0.5s ease-out 0.1s forwards;
 }
 
 .hero-title::after {
@@ -858,8 +879,6 @@ nav.navbar.navbar-scrolled > div.navbar-container {
   line-height: 1.65;
   font-family: var(--font-inter), sans-serif;
   font-weight: 400;
-  opacity: 0;
-  animation: fade-up 0.5s ease-out 0.2s forwards;
 }
 
 /* ============================================
@@ -901,8 +920,6 @@ button.btn {
   padding: 12px 24px;
   margin: 0 auto;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  animation: fade-up 0.5s ease-out 0.4s forwards;
 }
 
 /* Light Mode - Box dos botões com contraste correto */
@@ -953,7 +970,6 @@ button.btn {
     0 8px 32px rgba(45, 212, 191, 0.15),
     0 0 0 1px rgba(45, 212, 191, 0.25);
   border-color: rgba(45, 212, 191, 0.3);
-  filter: brightness(1.05);
 }
 
 .btn.primary:active {
@@ -1326,8 +1342,17 @@ button.btn {
   animation: float-a 6s ease-in-out infinite alternate;
   animation-delay: 0s;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
-  will-change: transform;
   border-radius: 16px;
+}
+
+/* will-change apenas quando necessário - reduz overhead */
+@media (prefers-reduced-motion: no-preference) {
+  .about-photo-stack .floating-photo-a,
+  .about-photo-stack .floating-photo-b,
+  .about-photo-stack .floating-photo-c,
+  .about-photo-stack .floating-photo-d {
+    will-change: transform;
+  }
 }
 
 
@@ -1405,7 +1430,6 @@ button.btn {
   animation: float-b 7s ease-in-out infinite alternate;
   animation-delay: 1.2s;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
-  will-change: transform;
   border-radius: 16px;
 }
 
@@ -1422,7 +1446,6 @@ button.btn {
   animation: float-c 8s ease-in-out infinite alternate;
   animation-delay: 0.6s;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
-  will-change: transform;
   border-radius: 16px;
 }
 
@@ -2105,6 +2128,21 @@ button.btn {
 
   .about-photo-stack .main-photo::after {
     border-radius: 18px;
+  }
+
+  /* Desabilitar animações de floating photos no mobile para melhor performance */
+  .about-photo-stack .floating-photo-a,
+  .about-photo-stack .floating-photo-b,
+  .about-photo-stack .floating-photo-c,
+  .about-photo-stack .floating-photo-d {
+    animation: none;
+  }
+
+  /* Reduzir opacidade das lights no mobile */
+  .light.l1,
+  .light.l2,
+  .light.l3 {
+    opacity: 0.3;
   }
 
   .about-photo-stack .floating-photo-a {

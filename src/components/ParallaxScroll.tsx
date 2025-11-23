@@ -4,11 +4,16 @@ import { useEffect } from 'react';
 
 export default function ParallaxScroll() {
   useEffect(() => {
+    // Desabilitar parallax em dispositivos móveis para melhor performance
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth <= 768) return;
+
     let ticking = false;
+    let rafId: number | null = null;
 
     const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(() => {
+        rafId = window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
           document.documentElement.style.setProperty('--scroll', scrollY.toString());
           
@@ -29,6 +34,9 @@ export default function ParallaxScroll() {
     handleScroll(); // Initial call
 
     return () => {
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);

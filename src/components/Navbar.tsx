@@ -46,56 +46,95 @@ export default function Navbar() {
     localStorage.setItem('theme', newTheme);
   };
 
+  // Prefetch automático para seções internas - prepara elementos para navegação rápida
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const scrollingUp = currentScrollY < lastScrollY.current;
-      const scrollingDown = currentScrollY > lastScrollY.current;
-      
-      // Fechar menu ao rolar a tela
-      setIsMenuOpen((prev) => prev ? false : prev);
-      
-      setIsScrolled(currentScrollY > 50);
-      
-      // Se estiver no topo, sempre mostrar
-      if (currentScrollY < 10) {
-        setIsVisible(true);
-        lastScrollY.current = currentScrollY;
-        return;
-      }
-      
-      // Durante o scroll, sempre mostrar
-      isScrolling.current = true;
-      setIsVisible(true);
-      
-      // Limpar timeouts anteriores
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
-      }
-      if (hoverTimeout.current) {
-        clearTimeout(hoverTimeout.current);
-        hoverTimeout.current = null;
-      }
-      
-      // Após parar de scrollar (delay de 800ms)
-      scrollTimeout.current = setTimeout(() => {
-        isScrolling.current = false;
-        // Se estava scrollando para cima, manter visível
-        // Se estava scrollando para baixo e não está com hover, esconder
-        if (scrollingDown && !isHovered) {
-          setIsVisible(false);
+    if (typeof window === 'undefined') return;
+    
+    const sections = ['inicio', 'sobre', 'habilidades', 'projetos', 'contato'];
+    
+    // Preparar elementos para scroll rápido - garantir que estão acessíveis
+    const prepareSections = () => {
+      sections.forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) {
+          // Forçar layout calculation uma vez para otimizar scroll futuro
+          // Isso garante que o browser já tenha calculado a posição
+          void element.offsetHeight;
+          element.setAttribute('data-nav-ready', 'true');
         }
-        // Se estava scrollando para cima, manter visível (já está true)
-      }, 800);
-      
-      // Salvar direção do último scroll
-      if (scrollingUp) {
-        lastScrollDirection.current = 'up';
-      } else if (scrollingDown) {
-        lastScrollDirection.current = 'down';
+      });
+    };
+
+    // Preparar imediatamente e também após um pequeno delay para garantir que DOM está pronto
+    prepareSections();
+    const timeoutId = setTimeout(prepareSections, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  // Otimização: usar requestAnimationFrame para throttling eficiente do scroll
+  useEffect(() => {
+    let rafId: number | null = null;
+    let ticking = false;
+    
+    const handleScroll = () => {
+      if (!ticking) {
+        rafId = requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const scrollingUp = currentScrollY < lastScrollY.current;
+          const scrollingDown = currentScrollY > lastScrollY.current;
+          
+          // Fechar menu ao rolar a tela
+          setIsMenuOpen((prev) => prev ? false : prev);
+          
+          setIsScrolled(currentScrollY > 50);
+          
+          // Se estiver no topo, sempre mostrar
+          if (currentScrollY < 10) {
+            setIsVisible(true);
+            lastScrollY.current = currentScrollY;
+            ticking = false;
+            return;
+          }
+          
+          // Durante o scroll, sempre mostrar
+          isScrolling.current = true;
+          setIsVisible(true);
+          
+          // Limpar timeouts anteriores
+          if (scrollTimeout.current) {
+            clearTimeout(scrollTimeout.current);
+          }
+          if (hoverTimeout.current) {
+            clearTimeout(hoverTimeout.current);
+            hoverTimeout.current = null;
+          }
+          
+          // Após parar de scrollar (delay de 800ms)
+          scrollTimeout.current = setTimeout(() => {
+            isScrolling.current = false;
+            // Se estava scrollando para cima, manter visível
+            // Se estava scrollando para baixo e não está com hover, esconder
+            if (scrollingDown && !isHovered) {
+              setIsVisible(false);
+            }
+            // Se estava scrollando para cima, manter visível (já está true)
+          }, 800);
+          
+          // Salvar direção do último scroll
+          if (scrollingUp) {
+            lastScrollDirection.current = 'up';
+          } else if (scrollingDown) {
+            lastScrollDirection.current = 'down';
+          }
+          
+          lastScrollY.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
       }
-      
-      lastScrollY.current = currentScrollY;
     };
     
     // Inicializar posição
@@ -104,6 +143,9 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
       if (scrollTimeout.current) {
         clearTimeout(scrollTimeout.current);
       }
@@ -148,15 +190,27 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
+  // Função otimizada de scroll com opções de performance
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
-    } else if (id === 'inicio') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setIsMenuOpen(false);
-    }
+    setIsMenuOpen(false);
+    
+    // Usar requestAnimationFrame para garantir que o scroll aconteça no próximo frame
+    requestAnimationFrame(() => {
+      if (id === 'inicio') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      const element = document.getElementById(id);
+      if (element) {
+        // Usar scrollIntoView com opções otimizadas para melhor performance
+        element.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+      }
+    });
   };
 
   const handleToggleMenu = () => {

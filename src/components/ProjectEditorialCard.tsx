@@ -10,7 +10,6 @@ interface ProjectEditorialCardProps {
   demo?: string | null;
   tech: string[];
   orientation: 'horizontal' | 'square' | 'vertical';
-  slug?: string;
 }
 
 export default function ProjectEditorialCard({
@@ -21,7 +20,6 @@ export default function ProjectEditorialCard({
   demo,
   tech,
   orientation,
-  slug,
 }: ProjectEditorialCardProps) {
   const cardClass = `editorial-card editorial-card-${orientation}`;
   const demoHref = demo || '#';
@@ -36,7 +34,6 @@ export default function ProjectEditorialCard({
         width={600}
         height={200}
         loading="lazy"
-        unoptimized={false}
       />
       <div className="card-content">
         <div>

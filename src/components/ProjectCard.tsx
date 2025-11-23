@@ -7,10 +7,7 @@ interface ProjectCardProps {
   description: string;
   img: string;
   repo?: string | null;
-  tech?: string[];
-  orientation?: 'horizontal' | 'square' | 'vertical';
   demo?: string | null;
-  slug?: string;
 }
 
 export default function ProjectCard({ 
@@ -18,10 +15,7 @@ export default function ProjectCard({
   description, 
   img, 
   repo,
-  tech,
-  orientation,
   demo,
-  slug,
 }: ProjectCardProps) {
   return (
     <motion.article className="project-card" whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 200 }}>
@@ -32,7 +26,6 @@ export default function ProjectCard({
         width={600}
         height={400}
         loading="lazy"
-        unoptimized={false}
       />
       <div className="project-body">
         <h3>{title}</h3>
