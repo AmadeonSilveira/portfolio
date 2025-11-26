@@ -1,4 +1,4 @@
-# Portfólio — Karin Andrade Silveira
+# Portfólio — Em construção
 
 Este repositório apresenta o meu portfólio.  
 Construído com **Next.js 14**, **React**, **TypeScript** e **CSS puro**.  
